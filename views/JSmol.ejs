@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jmol Protein Structure</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px; /* Set the desired height */
+        }
+    </style>
+    <script src="/jsmol/JSmol.min.js"></script>
+    <script src="/jsmol/js/Jmol2.js"></script>
+    <script>
+        jmolInitialize("/jsmol");
+        
+    </script>
+</head>
+<body>
+    <p>Molecule visualization by JSmol</p>
+    
+    <div class="container">
+        <script>
+            // Replace "PPA0001.pdb" with the path to your PDB file inside the "structure" directory
+            jmolApplet(500, "load /structure/7rn1.pdb", "0");   
+        </script>
+    </div>
+</body>
+</html>

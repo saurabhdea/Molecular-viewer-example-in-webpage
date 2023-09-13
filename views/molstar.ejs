@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molstar Viewer</title>
+    <script type="text/javascript" src="./molstar.js"></script>
+    <link rel="stylesheet" type="text/css" href="./molstar.css" />
+
+    <style>
+        /* Custom CSS to adjust the size of the viewer container */
+        .small-molstar-container {
+            width: 600px;
+            height: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Apply styles specifically to Molstar's viewer container */
+        .small-molstar-container .molstar-app {
+            width: 300%;
+            height: 300%;
+        }
+          /* Style for the button container */
+          .button-container {
+            text-align: center;
+            clear: both; /* Add this to ensure the buttons are below the viewer */
+        }
+
+        /* Style for the buttons */
+        .button-container button {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p>Molecule visualization by Mol*</p>
+
+    <div id="app-id" class="molstar-app small-molstar-container"></div>
+
+    <div class="button-container">
+        <button id="change-atomic-detail">Atomic Detail</button>
+        <button id="change-coarse-surface">Coarse Surface</button>
+    </div>
+   
+    
+
+    <script type="text/javascript">
+        molstar.Viewer.create("app-id", {
+            "emdbProvider": "rcsb",
+            "layoutShowLeftPanel": true,
+            "layoutShowRemoteState": false,
+            "viewportShowAnimation": true,
+            "pdbProvider": "rcsb",
+            "layoutShowSequence": true, // Set this to true to show the sequence view
+            "viewportShowSelectionMode": false,
+            "layoutShowLog": true,
+            "viewportShowExpand": true,
+            "layoutShowControls": false,
+            "layoutIsExpanded": false
+        }).then(async viewer => {
+            const plugin = viewer.plugin;
+            const pdbFileUrl = './structure/7rn1.pdb'; // Update with your desired PDB file
+
+            // Load structure from local URL
+            const data = await plugin.builders.data.download({ url: pdbFileUrl, isBinary: false }, { state: { isGhost: true } });
+            const format = 'pdb';
+            const trajectory = await plugin.builders.structure.parseTrajectory(data, format);
+
+            // Function to apply representation presets
+            const applyRepresentation = async (preset) => {
+                await plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default', {
+                    representationPreset: preset,
+                });
+            };
+
+            // Apply initial representation preset
+            await applyRepresentation('polymer-cartoon');
+
+            // Attach functions to button click events
+            const coarseSurfaceButton = document.getElementById('change-coarse-surface');
+            coarseSurfaceButton.addEventListener('click', async () => {
+                await applyRepresentation('coarse-surface');
+            });
+
+            const atomicDetailButton = document.getElementById('change-atomic-detail');
+            atomicDetailButton.addEventListener('click', async () => {
+                await applyRepresentation('atomic-detail');
+            });
+        });
+    </script>
+</body>
+</html>

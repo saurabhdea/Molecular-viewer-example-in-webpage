@@ -1,0 +1,15 @@
+{
+  "name": "molecular-viewer",
+  "version": "1.0.0",
+  "description": "An example of a molecular viewer on a website using various molecule visualisation and analysis toolkits.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Saurabh Kumar Dey",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  }
+}

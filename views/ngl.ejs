@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGL Viewer Example</title>
+    <style>
+        /* Center the ngl-container div */
+        #ngl-container {
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <p>Molecule visualization by NGL visualization</p>
+    <div id="ngl-container" style="width: 600px; height: 600px;"></div>
+    <script src="./js/ngl.js"></script>
+    <script>
+        // Initialize NGL Viewer
+        document.addEventListener("DOMContentLoaded", function () {
+            var stage = new NGL.Stage("ngl-container");
+
+            // Load and display the PDB file
+            stage.loadFile("./structure/7rn1.pdb").then(function (component) {
+                component.addRepresentation("cartoon");
+                component.autoView();
+            });
+        });
+    </script>
+</body>
+</html>
